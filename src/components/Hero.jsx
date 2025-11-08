@@ -75,7 +75,7 @@ export default function Hero() {
         </div>
 
         {/* Spline Scene - Laptop animation */}
-        <div className="relative mt-12 h[420px] w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 shadow-xl lg:mt-0 lg:h-[540px] lg:flex-1">
+        <div className="relative mt-12 h-[420px] w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 shadow-xl lg:mt-0 lg:h-[540px] lg:flex-1">
           <Spline
             scene="https://prod.spline.design/8X5t7XGZTXm7w3j5/scene.splinecode"
             style={{ width: '100%', height: '100%' }}
