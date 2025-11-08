@@ -1,29 +1,38 @@
 import React from 'react';
-import { Home, Briefcase, FolderGit2, Mail } from 'lucide-react';
+import { Home, FolderGit2, Mail } from 'lucide-react';
 
-const NavBar = () => {
+export default function NavBar() {
+  const items = [
+    { id: 'home', label: 'Home', icon: Home },
+    { id: 'projects', label: 'Projects', icon: FolderGit2 },
+    { id: 'contact', label: 'Contact', icon: Mail },
+  ];
+
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-slate-950/60 bg-slate-950/80 border-b border-white/10">
-      <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
-        <a href="#home" className="font-semibold tracking-tight">Naman Sinha</a>
-        <ul className="hidden md:flex items-center gap-6 text-sm text-white/80">
-          <li>
-            <a href="#home" className="hover:text-white inline-flex items-center gap-2"><Home size={16}/> Home</a>
-          </li>
-          <li>
-            <a href="#projects" className="hover:text-white inline-flex items-center gap-2"><FolderGit2 size={16}/> Projects</a>
-          </li>
-          <li>
-            <a href="#experience" className="hover:text-white inline-flex items-center gap-2"><Briefcase size={16}/> Experience</a>
-          </li>
-          <li>
-            <a href="#contact" className="hover:text-white inline-flex items-center gap-2"><Mail size={16}/> Contact</a>
-          </li>
+    <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/70 border-b border-black/5">
+      <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <button onClick={() => scrollTo('home')} className="font-semibold tracking-tight text-gray-900">
+          Naman Sinha
+        </button>
+        <ul className="flex items-center gap-2">
+          {items.map(({ id, label, icon: Icon }) => (
+            <li key={id}>
+              <button
+                onClick={() => scrollTo(id)}
+                className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition"
+              >
+                <Icon className="h-4 w-4" />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            </li>
+          ))}
         </ul>
-        <a href="#contact" className="md:hidden inline-flex items-center gap-2 rounded-md bg-white text-slate-900 px-3 py-1.5 text-sm font-medium shadow-sm hover:bg-white/90">Contact</a>
       </nav>
     </header>
   );
-};
-
-export default NavBar;
+}

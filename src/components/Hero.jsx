@@ -1,84 +1,71 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import { Github, Linkedin, FileText } from 'lucide-react';
+import React, { useEffect, useState, Suspense } from 'react';
+import { Github, Linkedin, FileText, Rocket } from 'lucide-react';
+import Spline from '@splinetool/react-spline';
 
-// Client-only lazy load for Spline to prevent crashes on environments without WebGL/support
-const LazySpline = React.lazy(() => import('@splinetool/react-spline'));
+export default function Hero() {
+  const [webglSupported, setWebglSupported] = useState(true);
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-  componentDidCatch() {}
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}
-
-const Hero = () => {
-  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true);
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      setWebglSupported(!!gl);
+    } catch {
+      setWebglSupported(false);
+    }
   }, []);
 
   return (
-    <section id="home" className="relative min-h-[80vh] grid place-items-center overflow-hidden">
+    <section id="home" className="relative min-h-[80vh] w-full flex items-center">
       <div className="absolute inset-0">
-        {mounted ? (
-          <ErrorBoundary fallback={<div className="w-full h-full bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_50%)]" /> }>
-            <Suspense fallback={<div className="w-full h-full bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_50%)] animate-pulse" /> }>
-              <LazySpline scene="https://prod.spline.design/6A6n0VJdWqv6eM1w/scene.splinecode" style={{ width: '100%', height: '100%' }} />
-            </Suspense>
-          </ErrorBoundary>
+        {webglSupported ? (
+          <Suspense fallback={<div className="w-full h-full bg-gradient-to-br from-indigo-50 via-white to-pink-50" /> }>
+            <Spline
+              scene="https://prod.spline.design/5h0nL-3D-sample/scene.splinecode"
+              style={{ width: '100%', height: '100%' }}
+            />
+          </Suspense>
         ) : (
-          <div className="w-full h-full bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_50%)]" />
+          <div className="w-full h-full bg-gradient-to-br from-indigo-50 via-white to-pink-50" />
         )}
       </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/20 to-slate-950" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/60 via-white/40 to-white/80" />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <p className="text-sm uppercase tracking-widest text-white/70">Portfolio</p>
-        <h1 className="mt-3 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
-          Naman Sinha
-        </h1>
-        <p className="mt-4 text-white/80 max-w-2xl mx-auto">
-          Frontend-focused developer crafting clean interfaces and smooth interactions.
-        </p>
-        <div className="mt-8 flex items-center justify-center gap-3">
-          <a
-            href="mailto:naman@example.com"
-            className="rounded-md bg-white text-slate-900 px-4 py-2 text-sm font-medium shadow hover:bg-white/90"
-          >
-            Contact
-          </a>
-          <a
-            href="#projects"
-            className="rounded-md border border-white/20 px-4 py-2 text-sm font-medium hover:border-white/40"
-          >
-            View Projects
-          </a>
-        </div>
-        <div className="mt-6 flex items-center justify-center gap-4">
-          <a href="https://github.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/80 hover:text-white">
-            <Github size={18}/> GitHub
-          </a>
-          <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/80 hover:text-white">
-            <Linkedin size={18}/> LinkedIn
-          </a>
-          <a href="#" className="inline-flex items-center gap-2 text-white/80 hover:text-white">
-            <FileText size={18}/> Resume
-          </a>
+      <div className="relative max-w-6xl mx-auto px-4 py-24 grid md:grid-cols-2 gap-10">
+        <div className="flex flex-col justify-center">
+          <div className="inline-flex items-center gap-2 text-sm text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full w-fit mb-4">
+            <Rocket className="h-4 w-4" />
+            Crafting delightful web experiences
+          </div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900">
+            Naman Sinha
+          </h1>
+          <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+            Frontend developer focused on React, animations, and product polish. I bring ideas to life with
+            performant, accessible interfaces.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <a href="#projects" className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition">
+              View Projects
+            </a>
+            <a href="#contact" className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition">
+              Contact
+            </a>
+          </div>
+          <div className="mt-8 flex items-center gap-4">
+            <a href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub" className="text-gray-600 hover:text-gray-900 transition">
+              <Github className="h-5 w-5" />
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-gray-600 hover:text-gray-900 transition">
+              <Linkedin className="h-5 w-5" />
+            </a>
+            <a href="#" aria-label="Resume" className="text-gray-600 hover:text-gray-900 transition">
+              <FileText className="h-5 w-5" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

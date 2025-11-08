@@ -4,73 +4,55 @@ import { ExternalLink, Clock } from 'lucide-react';
 const projects = [
   {
     title: 'Juswipe',
-    description: 'A modern dating app concept with swipe interactions and real-time matching. Coming soon.',
-    tags: ['React Native', 'Realtime', 'Design'],
-    link: null,
+    description: 'A modern mobile-first dating experience with seamless swipe interactions.',
+    url: '#',
+    soon: true,
   },
   {
-    title: 'Portfolio Site',
-    description: 'This site—designed for performance, accessibility, and clean aesthetics.',
-    tags: ['Vite', 'React', 'Tailwind'],
-    link: 'https://example.com',
+    title: 'Motion UI Kit',
+    description: 'Reusable animation primitives built on Framer Motion for React.',
+    url: 'https://example.com',
   },
   {
-    title: 'UI Components',
-    description: 'A small library of polished React UI components inspired by shadcn.',
-    tags: ['React', 'Design System'],
-    link: 'https://example.com',
+    title: 'Portfolio V2',
+    description: 'Fast, accessible, and elegant personal site built with Vite + Tailwind.',
+    url: 'https://example.com',
   },
   {
-    title: 'Motion Playground',
-    description: 'Exploring micro-interactions and animation with Framer Motion.',
-    tags: ['Framer Motion', 'UX'],
-    link: 'https://example.com',
-  },
-  {
-    title: 'Dev Tools',
-    description: 'A set of developer utilities and helpers published as npm packages.',
-    tags: ['TypeScript', 'Tooling'],
-    link: 'https://example.com',
+    title: 'Design Tokens CLI',
+    description: 'Generate cross-platform tokens from a single source of truth.',
+    url: 'https://example.com',
   },
 ];
 
-const ProjectCard = ({ title, description, tags, link }) => (
-  <div className="group rounded-xl border border-white/10 bg-white/5 p-5 hover:border-white/20 transition">
-    <div className="flex items-start justify-between gap-4">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      {link ? (
-        <a href={link} target="_blank" rel="noreferrer" className="text-white/70 hover:text-white">
-          <ExternalLink size={18} />
-        </a>
-      ) : (
-        <span className="inline-flex items-center gap-1 text-xs rounded-full bg-amber-500/20 text-amber-300 px-2 py-0.5">
-          <Clock size={14}/> Coming soon
-        </span>
-      )}
-    </div>
-    <p className="mt-2 text-white/70 text-sm">{description}</p>
-    <div className="mt-3 flex flex-wrap gap-2">
-      {tags.map((t) => (
-        <span key={t} className="text-[11px] rounded-md bg-white/10 px-2 py-1 text-white/70">{t}</span>
-      ))}
-    </div>
-  </div>
-);
-
-const Projects = () => {
+export default function Projects() {
   return (
-    <section id="projects" className="relative py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-bold">Featured Projects</h2>
-        <p className="mt-2 text-white/70">A snapshot of things I’m building and exploring.</p>
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
-            <ProjectCard key={p.title} {...p} />
-          ))}
-        </div>
+    <section id="projects" className="max-w-6xl mx-auto px-4 py-20">
+      <div className="mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">Featured Projects</h2>
+        <p className="mt-2 text-gray-600">A selection of work and experiments I enjoyed building.</p>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-6">
+        {projects.map((p) => (
+          <article key={p.title} className="group rounded-xl border border-gray-200 hover:border-gray-300 bg-white/80 backdrop-blur p-5 transition">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-lg font-semibold text-gray-900">{p.title}</h3>
+              {p.soon ? (
+                <span className="inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 border border-amber-100 px-2 py-1 rounded-full">
+                  <Clock className="h-3 w-3" />
+                  Coming soon
+                </span>
+              ) : (
+                <a href={p.url} target="_blank" rel="noreferrer" className="text-gray-600 hover:text-gray-900">
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              )}
+            </div>
+            <p className="mt-2 text-gray-600 text-sm leading-relaxed">{p.description}</p>
+          </article>
+        ))}
       </div>
     </section>
   );
-};
-
-export default Projects;
+}
