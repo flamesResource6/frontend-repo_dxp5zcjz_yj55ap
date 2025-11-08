@@ -3,6 +3,13 @@ import { ExternalLink, Globe } from 'lucide-react';
 
 const projects = [
   {
+    title: 'Juswipe',
+    description:
+      'A modern cross-platform app experience focused on delightful gestures and speed — crafted to feel effortless and intuitive.',
+    link: undefined,
+    stack: ['React Native', 'Flutter', 'UI/UX'],
+  },
+  {
     title: 'MindMate',
     description:
       'A mental health assistant and counselling platform equipped with a resource hub, AI chatbot, and community groups.',
@@ -66,14 +73,20 @@ export default function Projects() {
             >
               <div className="flex items-start justify-between gap-3">
                 <h3 className="text-lg font-semibold group-hover:text-cyan-300">{p.title}</h3>
-                <a
-                  href={p.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-xs text-slate-300 transition hover:border-cyan-500/30 hover:text-cyan-300"
-                >
-                  <Globe size={14} /> Live <ExternalLink size={12} />
-                </a>
+                {p.link ? (
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-xs text-slate-300 transition hover:border-cyan-500/30 hover:text-cyan-300"
+                  >
+                    <Globe size={14} /> Live <ExternalLink size={12} />
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-xs text-slate-400">
+                    Coming soon
+                  </span>
+                )}
               </div>
               <p className="mt-3 text-sm text-slate-300">{p.description}</p>
               <div className="mt-4 flex flex-wrap gap-2">
